@@ -1,0 +1,39 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweakScaleCompanion_FS", "Source\TweakScaleCompanion_FS\TweakScaleCompanion_FS.csproj", "{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TweakScalerFSBuoyancy", "Source\TweakScalerFSBuoyancy\TweakScalerFSBuoyancy.csproj", "{2F8662DC-114B-475B-B9A8-A069EA322E74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9021CE76-C642-4C6E-9278-61691FB3A862}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8662DC-114B-475B-B9A8-A069EA322E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8662DC-114B-475B-B9A8-A069EA322E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8662DC-114B-475B-B9A8-A069EA322E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8662DC-114B-475B-B9A8-A069EA322E74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.inheritsSet = null
+		$1.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $2
+		$2.scope = text/x-csharp
+		$0.TextStylePolicy = $3
+		$3.FileWidth = 132
+		$3.scope = text/plain
+	EndGlobalSection
+EndGlobal

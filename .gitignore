@@ -10,4 +10,4 @@ GameData/**/CHANGE_LOG.md
 GameData/**/KNOWN_ISSUES.md
 GameData/**/*.version
 GameData/**/Plugins*/*.dll
-Source/Version.cs
+Source/**/Properties/Version.cs
