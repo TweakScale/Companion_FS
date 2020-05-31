@@ -30,7 +30,7 @@ namespace TweakScaleCompanion.FS
 		private void Start()
 		{
 			Log.init();
-			Log.force("Version {0}", Version.Text);
+			Log.force("Version {0} Alpha", Version.Text);
 
 			try
 			{
