@@ -121,12 +121,15 @@ namespace TweakScaleCompanion.FS
 					{
 						string due = null;
 
-						if (containsBuoyancyScaler && (null != (due = this.checkForInventory(prefab))))
+						if (containsBuoyancyScaler)
 						{
-							Log.info("Removing {0} support for {1} ({2}) due {3}.", SCALERFSBUOYANCY_MODULE_NAME, p.name, p.title, due);
-							prefab.Modules.Remove(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME]);
+							if (null != (due = this.checkForInventory(prefab)))
+							{
+								Log.info("Removing {0} support for {1} ({2}) due {3}.", SCALERFSBUOYANCY_MODULE_NAME, p.name, p.title, due);
+								prefab.Modules.Remove(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME]);
+							}
+							else ++parts_with_buoyancy_count;
 						}
-						else ++parts_with_buoyancy_count;
 
 					}
 					catch (Exception e)
