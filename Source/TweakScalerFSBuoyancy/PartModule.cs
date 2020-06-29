@@ -43,6 +43,12 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		#region Part Module Fields
 
+        /// <summary>
+        /// Whether the Helper was deativated by some reason (usually the Sanity Checks)
+        /// </summary>
+        [KSPField(isPersistant = false)]
+        public bool isActive = true;
+
 		[KSPField(isPersistant=true)]
 		public float buoyancyForceMax = -1f;
 
@@ -83,6 +89,8 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		public override void OnCopy(PartModule fromModule)
 		{
+			if (!this.enabled) return;
+
 			Log.dbg("OnCopy {0}:{1:X} from {2:X}", this.name, this.part.GetInstanceID(), fromModule.part.GetInstanceID());
 			base.OnCopy(fromModule);
 
@@ -152,6 +160,8 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		internal void OnRescale(ScalingFactor factor)
 		{
+			if (!this.enabled) return;
+
 			Log.dbg("OnRescale {0}:{1:X} to {2}", this.name, this.part.GetInstanceID(), factor.ToString());
 
 			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy,
@@ -180,8 +190,13 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		private void InitInternalData()
 		{
-			this.tweakscale = this.part.Modules.GetModule<TweakScale.TweakScale>();
 			this.targetPartModule = this.part.Modules.GetModule<FSbuoyancy>();
+			this.tweakscale = this.part.Modules.GetModule<TweakScale.TweakScale>();
+			if (null == this.tweakscale || !(this.isActive && this.tweakscale.isActive))
+			{
+				this.enabled = false;
+				return;
+			}
 
 			if (this.buoyancyForceDefault < 0)
 				this.buoyancyForceDefault = (float)Math.Truncate((this.part.partInfo.partPrefab.Modules.GetModule<FSbuoyancy>().Fields[TARGETFIELDNAME].uiControlEditor as UI_FloatRange).maxValue / this.tweakscale.defaultScale);
@@ -194,6 +209,7 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		private void InitUiControl()
 		{
+			this.enabled = true;
 			this.myField = this.Fields["buoyancyPercent"];
 			this.myUiControl = (this.myField.uiControlEditor as UI_FloatRange);
 			this.myUiControl.onFieldChanged = this.OnMyBuyoancyFieldChange;

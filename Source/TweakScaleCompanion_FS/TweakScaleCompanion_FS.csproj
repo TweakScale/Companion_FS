@@ -63,5 +63,11 @@
       <LastGenOutput>Version.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TweakScalerFSBuoyancy\TweakScalerFSBuoyancy.csproj">
+      <Project>{2F8662DC-114B-475B-B9A8-A069EA322E74}</Project>
+      <Name>TweakScalerFSBuoyancy</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

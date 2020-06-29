@@ -127,9 +127,15 @@ namespace TweakScaleCompanion.FS
 							{
 								Log.info("Removing scaling support for {0} ({1}) due {2}.", p.name, p.title, due);
 								if (prefab.Modules.Contains(FSBUOYANCY_MODULE_NAME))
+								{
+									prefab.Modules[FSBUOYANCY_MODULE_NAME].enabled = false;
 									prefab.Modules.Remove(prefab.Modules[FSBUOYANCY_MODULE_NAME]);
+								}
 								if (prefab.Modules.Contains(SCALERFSBUOYANCY_MODULE_NAME))
+								{
+									(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME] as TweakScaleCompanion.FS.Buoyancy.TweakScalerFSbuoyancy).isActive = false;
 									prefab.Modules.Remove(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME]);
+								}
 							}
 							else ++parts_with_buoyancy_count;
 						}
