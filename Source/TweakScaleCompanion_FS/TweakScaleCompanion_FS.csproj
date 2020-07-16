@@ -56,18 +56,13 @@
     <Compile Include="SanityCheck.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GUI\ShowStopperAlertBox.cs" />
+    <Compile Include="GUI\UnmetRequirementsShowStopperAlertBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Version.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Version.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TweakScalerFSBuoyancy\TweakScalerFSBuoyancy.csproj">
-      <Project>{2F8662DC-114B-475B-B9A8-A069EA322E74}</Project>
-      <Name>TweakScalerFSBuoyancy</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
