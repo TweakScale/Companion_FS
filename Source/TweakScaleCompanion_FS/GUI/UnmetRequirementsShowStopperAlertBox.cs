@@ -42,7 +42,7 @@ If you decide to proceed, do it with caution - use S.A.V.E. just in case.";
 				string.Format(AMSG, failedRequirement),
 				() => { Application.OpenURL("https://forum.kerbalspaceprogram.com/index.php?/topic/192216-*"); Application.Quit(); }
 			);
-			Log.detail("\"Houston, we have a Problem!\" was displayed");
+			Log.detail("\"Houston, we have a Problem!\" about unmet dependencies was displayed");
 		}
     }
 }
