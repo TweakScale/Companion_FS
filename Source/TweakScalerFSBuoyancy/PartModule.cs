@@ -201,7 +201,7 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 			this.myField = this.Fields["buoyancyPercent"];
 			this.myUiControl = (this.myField.uiControlEditor as UI_FloatRange);
-			this.myUiControl.onFieldChanged = this.OnMyBuyoancyFieldChange;
+			this.myUiControl.onFieldChanged += this.OnMyBuyoancyFieldChange;
 		}
 
 		private void InitInternalData()
