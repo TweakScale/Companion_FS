@@ -23,6 +23,7 @@
 using System;
 
 using TweakScale;
+using TweakScale.Annotations;
 
 namespace TweakScaleCompanion.FS.Buoyancy
 {
@@ -32,10 +33,10 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		#region KSP UI
 
-		[KSPField(isPersistant=true, guiName="Buoyancy (%)", guiActive = true, guiActiveEditor = true, guiUnits = "%"), UI_FloatRange(minValue = 0f, maxValue = 100f, stepIncrement = 1f)]
-		public float buoyancyPercent = -1f;
+		[KSPField(isPersistant=true, guiName="Buoyancy (%)", guiActive = false, guiActiveEditor = true, guiUnits = "%"), UI_FloatRange(minValue = 0f, maxValue = 100f, stepIncrement = 1f)]
+		public float buoyancyPercent = 100f;
 
-		[KSPField(isPersistant=false, guiName="Raw Buoyancy", guiActive = true, guiActiveEditor = true)]
+		[KSPField(isPersistant=false, guiName="Raw Buoyancy", guiActive = false, guiActiveEditor = true)]
 		public string rawBuoyancyData = "xxx / xxx";
 
 		#endregion
@@ -43,7 +44,13 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		#region Part Module Fields
 
-		[KSPField(isPersistant=true)]
+        /// <summary>
+        /// Whether the Helper was deativated by some reason (usually the Sanity Checks)
+        /// </summary>
+        [KSPField(isPersistant = false)]
+        public bool isActive = true;
+
+		[KSPField(isPersistant=false)]
 		public float buoyancyForceMax = -1f;
 
 		#endregion
@@ -57,6 +64,7 @@ namespace TweakScaleCompanion.FS.Buoyancy
 		private UI_FloatRange myUiControl;
 
 		private bool IsRestoreNeeded = false;
+		private bool IsInitNeeded = true;
 
 		#region KSP Life Cycle
 
@@ -71,14 +79,12 @@ namespace TweakScaleCompanion.FS.Buoyancy
 			Log.dbg("OnStart {0}:{1:X} {2}", this.name, this.part.GetInstanceID(), state);
 			base.OnStart(state);
 
-			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy,
+			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy or TweakScale,
 			// and OnRescale can be fired before OnLoad.
-			if (null == this.targetPartModule)
-			{
-				this.InitInternalData();
-				this.InitUiControl();
-			}
-			if (HighLogic.LoadedSceneIsFlight) this.IsRestoreNeeded = true;
+			if (null == this.targetPartModule) this.InitModule();
+
+			this.IsInitNeeded = true;
+			this.IsRestoreNeeded = true;
 		}
 
 		public override void OnCopy(PartModule fromModule)
@@ -88,35 +94,30 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy,
 			// and OnRescale can be fired before OnLoad.
-			if (null == this.targetPartModule)
-			{
-				this.InitInternalData();
-				this.InitUiControl();
-			}
+			if (null == this.targetPartModule) this.InitModule();
+
 			this.IsRestoreNeeded = true;
 		}
 
 		public override void OnLoad(ConfigNode node)
 		{
-			Log.dbg("OnLoad {0}:{1:X} {2}", this.name, this.part.GetInstanceID(), null != node);
+			Log.dbg("OnLoad {0}:{1:X} {2}", this.name, this.part.GetInstanceID(), null == node ? "prefab" : node.name);
 			base.OnLoad(node);
-			if (null == node) return; // Load from Prefab - not interesting.
+			if (null == node) return;   // Load from Prefab - not interesting.
 
 			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy,
 			// and OnRescale can be fired before OnLoad.
 			if (null == this.targetPartModule)
 			{
-				this.InitInternalData();
-				this.InitUiControl();
+				this.InitModule();
+				this.IsInitNeeded = true;
 			}
-
 			this.IsRestoreNeeded = true;
 		}
 
 		public override void OnSave(ConfigNode node)
 		{
 			Log.dbg("OnSave {0}:{1:X} {2}", this.name, this.part.GetInstanceID(), null != node);
-			this.UpdateTarget();
 			base.OnSave(node);
 		}
 
@@ -124,17 +125,28 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 
 		#region Unity Life Cycle
-
+		 
+		[UsedImplicitly]
 		private void Update()
 		{
+			if (this.IsInitNeeded)
+			{
+				this.InitInternalData();
+				this.IsInitNeeded = false;
+				Log.dbg("OnInitNeeded");
+			}
+
 			if (this.IsRestoreNeeded)
 			{
 				this.RescaleMaxBuoyancy();
 				this.UpdateTarget();
-				this.UpdateRawData();
+				this.RefreshUI();
+				this.IsRestoreNeeded = false;
+				Log.dbg("OnRestoreNeeded");
 			}
 		}
 
+		[UsedImplicitly]
 		private void OnDestroy()
 		{
 			Log.dbg("OnDestroy {0}:{1:X}", this.name, this.part.GetInstanceID());
@@ -159,12 +171,11 @@ namespace TweakScaleCompanion.FS.Buoyancy
 			if (null == this.targetPartModule)
 			{
 				this.InitInternalData();
-				this.InitUiControl();
 			}
 
 			this.RescaleMaxBuoyancy();
 			this.UpdateTarget();
-			this.UpdateRawData();
+			this.RefreshUI();
 		}
 
 		private void OnMyBuyoancyFieldChange(BaseField field, object what)
@@ -173,36 +184,39 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 			this.RescaleMaxBuoyancy();
 			this.UpdateTarget();
-			this.UpdateRawData();
+			this.RefreshUI();
 		}
 
 		#endregion
 
-		private void InitInternalData()
+		private void InitModule()
 		{
 			this.tweakscale = this.part.Modules.GetModule<TweakScale.TweakScale>();
 			this.targetPartModule = this.part.Modules.GetModule<FSbuoyancy>();
+			if (null == this.targetPartModule || !this.targetPartModule.enabled)
+			{
+				this.enabled = false;
+				return;
+			}
 
-			if (this.buoyancyForceDefault < 0)
-				this.buoyancyForceDefault = (float)Math.Truncate((this.part.partInfo.partPrefab.Modules.GetModule<FSbuoyancy>().Fields[TARGETFIELDNAME].uiControlEditor as UI_FloatRange).maxValue / this.tweakscale.defaultScale);
-
-			if (this.buoyancyPercent < 0 )
-				this.buoyancyPercent = (float)Math.Truncate(100f * this.targetPartModule.buoyancyForce / this.buoyancyForceMax);
-
-			Log.dbg("InitInternalData {0}:{1:X} to {2} / {3}", this.name, this.part.GetInstanceID(), this.buoyancyForceDefault, this.buoyancyPercent);
-		}
-
-		private void InitUiControl()
-		{
 			this.myField = this.Fields["buoyancyPercent"];
 			this.myUiControl = (this.myField.uiControlEditor as UI_FloatRange);
 			this.myUiControl.onFieldChanged = this.OnMyBuyoancyFieldChange;
+		}
 
-			{
+		private void InitInternalData()
+		{
+			{	// KSP insists on overwritting this info at Scene changing...
+				// And I don't think it's a good idea to overwrite the datum on the prefab - but I can be convinced otherwise :)
 				BaseField bf = this.targetPartModule.Fields[TARGETFIELDNAME];
 				bf.guiActive = false;
 				bf.guiActiveEditor = false;
 			}
+
+			this.buoyancyForceDefault = (this.part.partInfo.partPrefab.Modules.GetModule<FSbuoyancy>().Fields[TARGETFIELDNAME].uiControlEditor as UI_FloatRange).maxValue;
+
+			this.RefreshInternalData();
+			this.RefreshUI();
 		}
 
 		private void DeInitUiControl()
@@ -214,9 +228,16 @@ namespace TweakScaleCompanion.FS.Buoyancy
 			}
 		}
 
+		private void RefreshInternalData()
+		{
+			this.RescaleMaxBuoyancy();
+			this.targetPartModule.buoyancyForce = (float)Math.Truncate(this.buoyancyPercent * this.buoyancyForceMax / 100f);
+			Log.dbg("RefreshInternalData {0}:{1:X} to {2} / {3}", this.name, this.part.GetInstanceID(), this.buoyancyForceDefault, this.buoyancyPercent);
+		}
+
 		private void RescaleMaxBuoyancy()
 		{
-			this.buoyancyForceMax = (float)Math.Truncate(this.buoyancyForceDefault * this.tweakscale.currentScale);
+			this.buoyancyForceMax = (float)Math.Truncate(this.buoyancyForceDefault * this.tweakscale.CurrentScaleFactor);
 		}
 
 		private void UpdateTarget()
@@ -225,7 +246,7 @@ namespace TweakScaleCompanion.FS.Buoyancy
 			Log.dbg("this.targetPartModule.buoyancyForce {0}:{1:X} = {2}", this.name, this.part.GetInstanceID(), this.targetPartModule.buoyancyForce);
 		}
 
-		private void UpdateRawData()
+		private void RefreshUI()
 		{
 			this.rawBuoyancyData = string.Format("{0} / {1}", this.targetPartModule.buoyancyForce, this.buoyancyForceMax);
 		}

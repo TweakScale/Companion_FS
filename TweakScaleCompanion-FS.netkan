@@ -14,7 +14,7 @@
     "install" : [
         {
             "file" : "GameData/TweakScaleCompanion/FS",
-            "install_to" : "GameData/TweakScaleCompanion/FS"
+            "install_to" : "GameData/TweakScaleCompanion"
         }
     ],
     "resources": {
@@ -22,7 +22,7 @@
         "repository": "https://github.com/net-lisias-ksp/TweakScaleCompanion_FS"
     },
     "depends" : [
-        { "name" : "ModuleManager", "min_version" : "2.7.1" },
+        { "name" : "ModuleManager", "min_version" : "3.1.1" },
         { "name" : "TweakScaleCore", "min_version" : "2.4.4" },
         { "name" : "Firespitter" }
     ]

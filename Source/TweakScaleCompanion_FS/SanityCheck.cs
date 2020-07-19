@@ -127,9 +127,9 @@ namespace TweakScaleCompanion.FS
 							{
 								Log.info("Removing scaling support for {0} ({1}) due {2}.", p.name, p.title, due);
 								if (prefab.Modules.Contains(FSBUOYANCY_MODULE_NAME))
-									prefab.Modules.Remove(prefab.Modules[FSBUOYANCY_MODULE_NAME]);
+									prefab.RemoveModule(prefab.Modules[FSBUOYANCY_MODULE_NAME]);
 								if (prefab.Modules.Contains(SCALERFSBUOYANCY_MODULE_NAME))
-									prefab.Modules.Remove(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME]);
+									prefab.RemoveModule(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME]);
 							}
 							else ++parts_with_buoyancy_count;
 						}
@@ -170,7 +170,6 @@ namespace TweakScaleCompanion.FS
 
 			if (!p.Modules.Contains(FSBUOYANCY_MODULE_NAME)) return MSG_PART_DOES_NOT_NEED;
 			if (!p.Modules.Contains(SCALERFSBUOYANCY_MODULE_NAME)) return MSG_PART_IMPROPERLY_PATCHED;
-			if (p.name.StartsWith("kerbalEVA")) return MSG_PART_NOT_SUPPORTED;
 			if (p.name.StartsWith("kerbalEVA")) return MSG_PART_NOT_SUPPORTED;
 			if (p.name.StartsWith("maleEVA")) return MSG_PART_NOT_SUPPORTED;
 			if (p.name.StartsWith("femaleEVA")) return MSG_PART_NOT_SUPPORTED;

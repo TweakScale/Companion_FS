@@ -58,11 +58,5 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TweakScaleCompanion_FS\TweakScaleCompanion_FS.csproj">
-      <Project>{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}</Project>
-      <Name>TweakScaleCompanion_FS</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -56,6 +56,7 @@
     <Compile Include="SanityCheck.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="GUI\ShowStopperAlertBox.cs" />
+    <Compile Include="GUI\UnmetRequirementsShowStopperAlertBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\Version.tt">
