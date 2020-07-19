@@ -86,7 +86,7 @@ namespace TweakScaleCompanion.FS
 					// However, that co-routine stunt appears to have solved it.
 					// But we will keep this as a ghinea-pig in the case the problem happens again.
 					int retries = WAIT_ROUNDS;
-					bool containsBuoyancyScaler = false;
+					bool containsBuoyancy = false;
 					Exception culprit = null;
 					
 					prefab = p.partPrefab; // Reaching the prefab here in the case another Mod recreates it from zero. If such hypothecical mod recreates the whole part, we're doomed no matter what.
@@ -96,7 +96,7 @@ namespace TweakScaleCompanion.FS
 						bool should_yield = false;
 						try 
 						{
-							containsBuoyancyScaler = prefab.Modules.Contains(SCALERFSBUOYANCY_MODULE_NAME);
+							containsBuoyancy = prefab.Modules.Contains(FSBUOYANCY_MODULE_NAME) || prefab.Modules.Contains(SCALERFSBUOYANCY_MODULE_NAME);
 							++total_count;
 							break;  // Yeah. This while stunt was done just to be able to do this. All the rest is plain clutter! :D 
 						}
@@ -121,12 +121,18 @@ namespace TweakScaleCompanion.FS
 					{
 						string due = null;
 
-						if (containsBuoyancyScaler && (null != (due = this.checkForInventory(prefab))))
+						if (containsBuoyancy)
 						{
-							Log.info("Removing {0} support for {1} ({2}) due {3}.", SCALERFSBUOYANCY_MODULE_NAME, p.name, p.title, due);
-							prefab.Modules.Remove(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME]);
+							if (null != (due = this.checkForInventory(prefab)))
+							{
+								Log.info("Removing scaling support for {0} ({1}) due {2}.", p.name, p.title, due);
+								if (prefab.Modules.Contains(FSBUOYANCY_MODULE_NAME))
+									prefab.Modules.Remove(prefab.Modules[FSBUOYANCY_MODULE_NAME]);
+								if (prefab.Modules.Contains(SCALERFSBUOYANCY_MODULE_NAME))
+									prefab.Modules.Remove(prefab.Modules[SCALERFSBUOYANCY_MODULE_NAME]);
+							}
+							else ++parts_with_buoyancy_count;
 						}
-						else ++parts_with_buoyancy_count;
 
 					}
 					catch (Exception e)
