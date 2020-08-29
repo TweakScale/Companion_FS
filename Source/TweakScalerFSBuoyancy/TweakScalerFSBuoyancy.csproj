@@ -44,11 +44,11 @@
     <Reference Include="KSPe.Light.TweakScale">
       <HintPath>..\..\..\..\..\..\LIB\plugins\KSPe.Light.TweakScale.dll</HintPath>
     </Reference>
-    <Reference Include="Scale">
-      <HintPath>..\..\..\..\..\..\LIB\plugins\Scale.dll</HintPath>
-    </Reference>
     <Reference Include="Firespitter">
       <HintPath>..\..\..\..\..\..\LIB\plugins\Firespitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Scale.BETA">
+      <HintPath>..\..\..\..\..\..\LIB\plugins\Scale.BETA.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
