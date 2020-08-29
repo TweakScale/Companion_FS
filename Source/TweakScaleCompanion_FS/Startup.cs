@@ -21,7 +21,6 @@
 
 */
 using System;
-using System.Linq;
 using UnityEngine;
 
 namespace TweakScaleCompanion.FS
@@ -49,16 +48,15 @@ namespace TweakScaleCompanion.FS
 
 		private void checkDependencies()
 		{
-			try
+			// Linq is giving me "Exception System.InvalidOperationException: Operation is not valid due to the current state of the object".
+			// So I got rid of that crap.
+			foreach (AssemblyLoader.LoadedAssembly assembly in AssemblyLoader.loadedAssemblies) if ("Scale" == assembly.assembly.GetName().Name)
 			{
-				AssemblyLoader.LoadedAssembly assembly = AssemblyLoader.loadedAssemblies.Where(a => a.assembly.GetName().Name == "TweakScale").First();
-				if (-1 == assembly.assembly.GetName().Version.CompareTo(new System.Version(2, 4, 4)) )
-					GUI.UnmetRequirementsShowStopperAlertBox.Show("TweakScale v2.4.4 or superior");
-				}
-			catch (InvalidOperationException e)
-			{
-				GUI.UnmetRequirementsShowStopperAlertBox.Show("TweakScale v2.4.4 or superior");
+				Log.detail("Found {0}", assembly.assembly.FullName);
+				if (assembly.assembly.GetName().Version.CompareTo(new System.Version(2, 4, 4)) >= 0) return;
+				break;
 			}
+			GUI.UnmetRequirementsShowStopperAlertBox.Show("TweakScale v2.4.4 or superior");
 		}
 	}
 }
