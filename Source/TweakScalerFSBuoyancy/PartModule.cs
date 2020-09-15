@@ -166,7 +166,7 @@ namespace TweakScaleCompanion.FS.Buoyancy
 		{
 			Log.dbg("OnRescale {0}:{1:X} to {2}", this.name, this.part.GetInstanceID(), factor.ToString());
 
-			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy,
+			// Needed because I can't intialize this on OnAwake or OnStart as this module can be awaken/started before FSbuoyancy,
 			// and OnRescale can be fired before OnLoad.
 			if (null == this.targetPartModule)
 			{
