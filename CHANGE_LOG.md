@@ -1,5 +1,8 @@
 # TweakScale Companion :: Firespitter :: Change Log
 
+* 2020-1228: 0.0.2.2 RC (LisiasT) for KSP >= 1.4
+	+ Copes with KSPe new installment checks.
+	+ Promoted to Release Candidate! #HURRAY
 * 2020-0917: 0.0.2.1 Beta (LisiasT) for KSP >= 1.4
 	+ Copes with TweakScale's new feature implemented on its Issue [#142 Add ignoreResourcesForCost to the TweakScale module attributes](https://github.com/net-lisias-ksp/TweakScale/issues/142)
 * 2020-0829: 0.0.2.0 Beta (LisiasT) for KSP >= 1.4
