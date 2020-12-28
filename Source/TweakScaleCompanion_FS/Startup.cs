@@ -35,7 +35,7 @@ namespace TweakScaleCompanion.FS
 
 			try
 			{
-				KSPe.Util.Installation.Check<Startup>(System.IO.Path.Combine("TweakScaleCompanion", "FS"));
+				KSPe.Util.Installation.Check<Startup>("TweakScaleCompanion_FS", "FS", Version.Vendor);
 			}
 			catch (KSPe.Util.InstallmentException e)
 			{
