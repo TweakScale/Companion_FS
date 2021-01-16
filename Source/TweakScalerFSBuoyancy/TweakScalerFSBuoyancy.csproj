@@ -30,25 +30,25 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\..\LIB\managed\1.4.1\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\LIB\managed\1.4.1\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\..\..\..\..\LIB\managed\1.4.1\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\LIB\managed\1.4.1\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Scale_Redist">
-      <HintPath>..\..\..\..\..\..\LIB\plugins\Scale_Redist.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\LIB\plugins\Scale_Redist.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\LIB\managed\1.4.1\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\LIB\managed\1.4.1\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="KSPe.Light.TweakScale">
-      <HintPath>..\..\..\..\..\..\LIB\plugins\KSPe.Light.TweakScale.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\LIB\plugins\KSPe.Light.TweakScale.dll</HintPath>
     </Reference>
     <Reference Include="Firespitter">
-      <HintPath>..\..\..\..\..\..\LIB\plugins\Firespitter.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\LIB\plugins\Firespitter.dll</HintPath>
     </Reference>
     <Reference Include="Scale.BETA">
-      <HintPath>..\..\..\..\..\..\LIB\plugins\Scale.BETA.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\LIB\plugins\Scale.BETA.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +57,12 @@
     <Compile Include="..\TweakScaleCompanion_FS\Properties\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TweakScaleCompanion_FS\TweakScaleCompanion_FS.csproj">
+      <Project>{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}</Project>
+      <Name>TweakScaleCompanion_FS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
