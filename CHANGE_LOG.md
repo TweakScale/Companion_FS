@@ -1,5 +1,7 @@
 # TweakScale Companion :: Firespitter :: Change Log
 
+* 2020-0116: 1.0.0.0 (LisiasT) for KSP >= 1.4
+	+ TweakScale Companion for Firespitter goes gold! #HURRAY
 * 2020-1228: 0.0.2.2 RC (LisiasT) for KSP >= 1.4
 	+ Copes with KSPe new installment checks.
 	+ Promoted to Release Candidate! #HURRAY
