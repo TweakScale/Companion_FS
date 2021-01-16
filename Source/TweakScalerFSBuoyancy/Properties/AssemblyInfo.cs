@@ -7,10 +7,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("TweakScalerFSbuoyancy")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("L Aerospace/KSP Division")]
-[assembly: AssemblyProduct("TweakScale Companion for Firespitter")]
-[assembly: AssemblyCopyright("Copyright © 2020 LisiasT")]
-[assembly: AssemblyTrademark("TweakScale™, TweakScale Companion™ by LisiasT")]
+[assembly: AssemblyCompany(TweakScaleCompanion.FS.LegalMamboJambo.Company)]
+[assembly: AssemblyProduct(TweakScaleCompanion.FS.LegalMamboJambo.Product)]
+[assembly: AssemblyCopyright(TweakScaleCompanion.FS.LegalMamboJambo.Copyight)]
+[assembly: AssemblyTrademark(TweakScaleCompanion.FS.LegalMamboJambo.Trademark)]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -1,6 +1,6 @@
 ﻿/*
 	This file is part of TweakScaleCompanion_FS
-	© 2020 LisiasT : http://lisias.net <support@lisias.net>
+	© 2020-21 LisiasT : http://lisias.net <support@lisias.net>
 
 	TweakScaleCompanion_FS is double licensed, as follows:
 
