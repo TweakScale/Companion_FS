@@ -3,69 +3,157 @@
 source ./CONFIG.inc
 
 check() {
-	if [ ! -d "./GameData/$TARGETBINDIR/" ] ; then
-		rm -f "./GameData/$TARGETBINDIR/"
-		mkdir -p "./GameData/$TARGETBINDIR/"
+	for d in . $KSP_DEV ; do
+		if [ ! -d "${d}/GameData/${TARGETBINDIR}/" ] ; then
+			rm -f "${d}/GameData/${TARGETBINDIR}/"
+		fi
+		mkdir -p "${d}/GameData/${TARGETBINDIR}"
+		if [[ ! -z "${PD_DLLS}" ]] ; then
+			mkdir -p "${d}/GameData/${TARGETBINDIR}/PluginData/"
+		fi
+		if [[ ! -z "${PD_SUB_DIRS}" ]] ; then
+			for dd in ${PD_SUB_DIRS} ; do
+				mkdir -p "${d}/GameData/${TARGETBINDIR}/PluginData/${dd}/"
+			done
+		fi
+		if [[ ! -z "${EXCEPTION_DIRS}" ]] ; then
+			for dd in ${EXCEPTION_DIRS} ; do
+				mkdir -p "${d}/GameData/${TARGETBINDIR}/${dd}/"
+			done
+		fi
+		rm -f ${d}/GameData/${TARGETBINDIR}/KSPe.Light.*
+	done
+
+	if [[ -d "./bin/Release" && -d "./bin/Debug" ]] ; then
+		echo "Conflicting Release and Debug dirs. Clean and rebuild!"
+		exit -1
+	fi
+
+	if [[ ! -d "./bin/Release" && ! -d "./bin/Debug" ]] ; then
+		echo "Absent Release and Debug dirs. Nothingn to do! Rebuild!"
+		exit -2
 	fi
 }
 
-deploy_dev() {
-	local DLL=$1
+deploy() {
+	local DLL=$1.dll
 
-	if [ -f "./bin/Release/$DLL.dll" ] ; then
-		cp "./bin/Release/$DLL.dll" "$LIB"
-	fi
-}
-
-deploy_bin() {
-	local DLL=$1
-
-	if [ -f "./bin/Release/$DLL.dll" ] ; then
-		cp "./bin/Release/$DLL.dll" "./GameData/$TARGETBINDIR/"
-		if [ -d "${KSP_DEV}/GameData/$TARGETBINDIR/" ] ; then
-			cp "./bin/Release/$DLL.dll" "${KSP_DEV/}GameData/$TARGETBINDIR/"
+	if [ -f "./bin/Release/${DLL}" ] ; then
+		cp "./bin/Release/${DLL}" "./GameData/${TARGETBINDIR}/"
+		if [ -d "${KSP_DEV}/GameData/${TARGETBINDIR}/" ] ; then
+			cp "./bin/Release/${DLL}" "${KSP_DEV}/GameData/${TARGETBINDIR}/"
 		fi
 	fi
-	if [ -f "./bin/Debug/$DLL.dll" ] ; then
-		if [ -d "${KSP_DEV}/GameData/$TARGETBINDIR/" ] ; then
-			cp "./bin/Debug/$DLL.dll" "${KSP_DEV}GameData/$TARGETBINDIR/"
+	if [ -f "./bin/Debug/${DLL}" ] ; then
+		if [ -d "${KSP_DEV}/GameData/${TARGETBINDIR}/" ] ; then
+			cp "./bin/Debug/${DLL}" "${KSP_DEV}/GameData/${TARGETBINDIR}/"
 		fi
 	fi
 }
 
-deploy_md() {
-	local MD=$1
-	#![NxMyyTK.png](./PR_material/img/NxMyyTK.png)
-	sed $MD -e "s/!\\[.\+\\]\\(.\+\\)//g" > "./GameData/$TARGETDIR"/$MD
+deploy_lib() {
+	local DLL=$1.dll
+
+	if [ -f "./bin/Release/${DLL}" ] ; then
+		cp "./bin/Release/${DLL}" "${LIB}"
+	fi
+}
+
+deploy_plugindata() {
+	local DLL=$1.dll
+
+	if [ -f "./bin/Release/${DLL}" ] ; then
+		for d in . ${KSP_DEV} ; do
+			cp "./bin/Release/${DLL}" "${d}/GameData/${TARGETBINDIR}/PluginData"
+		done
+	fi
+	if [ -f "./bin/Debug/${DLL}" ] ; then
+		if [ ! -z ${KSP_DEV} ] ; then
+			cp "./bin/Debug/${DLL}" "${KSP_DEV}/GameData/${TARGETBINDIR}/PluginData"
+		fi
+	fi
+}
+
+deploy_plugindata_sub() {
+	local DLL=$1.dll
+	local TARGET=${PD_SUB_RULES[$1]}.dll
+
+	if [ -f "./bin/Release/${DLL}" ] ; then
+		for d in . ${KSP_DEV} ; do
+			cp "./bin/Release/${DLL}" "${d}/GameData/${TARGETBINDIR}/PluginData/${TARGET}"
+		done
+	fi
+	if [ -f "./bin/Debug/${DLL}" ] ; then
+		if [ ! -z ${KSP_DEV} ] ; then
+			cp "./bin/Debug/${DLL}" "${KSP_DEV}/GameData/${TARGETBINDIR}/PluginData/${TARGET}"
+		fi
+	fi
+}
+
+deploy_plugindata_ex() {
+	local DLL=$1.dll
+	local TARGET=${EXCEPTION_RULES[$1]}/$DLL
+
+	if [ -f "./bin/Release/${DLL}" ] ; then
+		for d in . ${KSP_DEV} ; do
+			cp "./bin/Release/${DLL}" "${d}/GameData/${TARGETBINDIR}/${TARGET}"
+		done
+	fi
+	if [ -f "./bin/Debug/${DLL}" ] ; then
+		if [ ! -z ${KSP_DEV} ] ; then
+			cp "./bin/Debug/${DLL}" "${KSP_DEV}/GameData/${TARGETBINDIR}/${TARGET}"
+		fi
+	fi
 }
 
 deploy_gamedata() {
 	local PLACE=$1
 	local DLL=$2.dll
 
-	if [ -f "./bin/Release/$DLL" ] ; then
-		cp "./bin/Release/$DLL" "./GameData/${PLACE}_$DLL"
-		if [ -d "${KSP_DEV}/GameData/" ] ; then
-			cp "./bin/Release/$DLL" "${KSP_DEV/}GameData/${PLACE}_$DLL"
-		fi
+	if [ -f "./bin/Release/${DLL}" ] ; then
+		for d in . ${KSP_DEV} ; do
+			cp "./bin/Release/${DLL}" "${d}/GameData/${PLACE}_${DLL}"
+		done
 	fi
-	if [ -f "./bin/Debug/$DLL" ] ; then
-		if [ -d "${KSP_DEV}/GameData/" ] ; then
-			cp "./bin/Debug/$DLL" "${KSP_DEV}GameData/${PLACE}_$DLL"
+	if [ -f "./bin/Debug/${DLL}" ] ; then
+		if [ ! -z ${KSP_DEV} ] ; then
+			cp "./bin/Debug/${DLL}" "${KSP_DEV}/GameData/${PLACE}_$DLL"
 		fi
 	fi
 }
-VERSIONFILE=$PACKAGE.version
+
+VERSIONFILE=${PACKAGE}.version
 
 check
-cp $VERSIONFILE "./GameData/$TARGETDIR"
-cp CHANGE_LOG.md "./GameData/$TARGETDIR"
-cp KNOWN_ISSUES.md "./GameData/$TARGETDIR"
-cp LICENSE* "./GameData/$TARGETDIR"
-cp NOTICE "./GameData/$TARGETDIR"
-deploy_md README.md
+cp $VERSIONFILE "./GameData/${TARGETDIR}"
+cp CHANGE_LOG.md "./GameData/${TARGETDIR}"
+cp README.md  "./GameData/${TARGETDIR}"
+cp LICENSE* "./GameData/${TARGETDIR}"
+cp NOTICE "./GameData/${TARGETDIR}"
+
+
+for dll in $LIB_DLLS ; do
+    deploy_lib $dll
+done
 
 for dll in $DLLS ; do
-    deploy_dev $dll
-    deploy_bin $dll
+    deploy $dll
 done
+
+for dll in $PD_DLLS ; do
+    deploy_plugindata $dll
+done
+
+for dll in ${!PD_SUB_RULES[@]} ; do
+    deploy_plugindata_sub $dll
+done
+
+for dll in $GD_DLLS ; do
+    deploy_gamedata $GD_PRIORITY $dll
+done
+
+for dll in ${!EXCEPTION_RULES[@]} ; do
+    deploy_plugindata_ex $dll
+done
+
+echo "${VERSION} Deployed into ${KSP_DEV}"
