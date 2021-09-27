@@ -27,49 +27,38 @@ namespace TweakScaleCompanion.FS
 	{
 		private static readonly Logger log = Logger.CreateForType<Startup>();
 
-		internal static void init()
-		{
-			log.level =
-#if DEBUG
-				Level.TRACE
-#else
-                Level.INFO
-#endif
-				;
-		}
-
-		internal static void force(string msg, params object[] @params)
+		public static void force(string msg, params object[] @params)
 		{
 			log.force(msg, @params);
 		}
 
-		internal static void info(string msg, params object[] @params)
+		public static void info(string msg, params object[] @params)
 		{
 			log.info(msg, @params);
 		}
 
-		internal static void warn(string msg, params object[] @params)
+		public static void warn(string msg, params object[] @params)
 		{
 			log.warn(msg, @params);
 		}
 
-		internal static void detail(string msg, params object[] @params)
+		public static void detail(string msg, params object[] @params)
 		{
 			log.detail(msg, @params);
 		}
 
-		internal static void error(Exception e, object offended)
+		public static void error(object offended, Exception e)
 		{
 			log.error(offended, e);
 		}
 
-		internal static void error(string msg, params object[] @params)
+		public static void error(string msg, params object[] @params)
 		{
 			log.error(msg, @params);
 		}
 
 		[ConditionalAttribute("DEBUG")]
-		internal static void dbg(string msg, params object[] @params)
+		public static void dbg(string msg, params object[] @params)
 		{
 			log.trace(msg, @params);
 		}
@@ -79,7 +68,7 @@ namespace TweakScaleCompanion.FS
 #endif
 
 		[ConditionalAttribute("DEBUG")]
-		internal static void dbgOnce(string msg, params object[] @params)
+		public static void dbgOnce(string msg, params object[] @params)
 		{
 			string new_msg = string.Format(msg, @params);
 #if DEBUG

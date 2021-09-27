@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("TweakScalerFSbuoyancy")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Implements TweakScale support for the FSbuoyancy PartModule")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(TweakScaleCompanion.FS.LegalMamboJambo.Company)]
 [assembly: AssemblyProduct(TweakScaleCompanion.FS.LegalMamboJambo.Product)]
-[assembly: AssemblyCopyright(TweakScaleCompanion.FS.LegalMamboJambo.Copyight)]
+[assembly: AssemblyCopyright(TweakScaleCompanion.FS.LegalMamboJambo.Copyright)]
 [assembly: AssemblyTrademark(TweakScaleCompanion.FS.LegalMamboJambo.Trademark)]
 [assembly: AssemblyCulture("")]
 
@@ -33,4 +33,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion(TweakScaleCompanion.FS.Version.Number)]
 [assembly: AssemblyFileVersion(TweakScaleCompanion.FS.Version.Number)]
-[assembly: KSPAssembly("TweakScalerFSbuoyancy", TweakScaleCompanion.FS.Version.major, TweakScaleCompanion.FS.Version.minor)]
+[assembly: KSPAssembly("TweakScaleCompanion_FS", TweakScaleCompanion.FS.Version.major, TweakScaleCompanion.FS.Version.minor)]
+[assembly: KSPAssemblyDependency("KSPe.Light.TweakScale", 2, 4)]

@@ -26,7 +26,7 @@ namespace TweakScaleCompanion.FS
 	public static class LegalMamboJambo
 	{
 		public const string Company = "L Aerospace KSP Division";
-		public const string Copyight = "© 2020-21 LisiasT";
+		public const string Copyright = "© 2020-21 LisiasT";
 		public const string Product = "TweakScale Companion for Firespitter";
 		public const string Trademark = "TweakScale™, TweakScale Companion™ by LisiasT";
 	}

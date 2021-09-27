@@ -3,12 +3,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4a9bbcc0-9b08-4e5f-910b-b4cf0b8f3a5b}</ProjectGuid>
+    <ProjectGuid>{66368DB5-00CA-4C9F-A556-2A7B7C04036F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>TweakScaleCompanion_FS</RootNamespace>
-    <AssemblyName>TweakScaleCompanion_FS</AssemblyName>
+    <RootNamespace>TweakScalerFSBuoyancyIntegrator</RootNamespace>
+    <AssemblyName>TweakScalerFSBuoyancyIntegrator</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <BaseIntermediateOutputPath>..\..\obj\TweakScaleCompanion_FS</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\TweakScalerFSBuoyancyIntegrator</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,7 +19,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -27,40 +26,48 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\..\..\..\LIB\managed\1.3.0\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\LIB\managed\1.3.0\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="KSPe.Light.TweakScale">
       <HintPath>..\..\..\..\..\..\..\LIB\plugins\KSPe.Light.TweakScale.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\..\..\LIB\managed\1.2.2\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Scale">
+      <HintPath>..\..\..\..\..\..\..\LIB\plugins\Scale.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\LIB\managed\1.2.2\UnityEngine.dll</HintPath>
+    <Reference Include="Scale_Redist">
+      <HintPath>..\..\..\..\..\..\..\LIB\plugins\Scale_Redist.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Firespitter">
+      <HintPath>..\..\..\..\..\..\..\LIB\plugins\Firespitter.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Version.cs">
-      <DependentUpon>Version.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Startup.cs" />
-    <Compile Include="SanityCheck.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="GUI\ShowStopperAlertBox.cs" />
-    <Compile Include="GUI\UnmetRequirementsShowStopperAlertBox.cs" />
-    <Compile Include="Properties\LegalMamboJambo.cs" />
+    <Compile Include="Integrator.cs" />
+    <Compile Include="Scaler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\Version.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Version.cs</LastGenOutput>
-    </None>
+    <ProjectReference Include="..\TweakScalerFSBuoyancy\TweakScalerFSBuoyancy.csproj">
+      <Project>{2F8662DC-114B-475B-B9A8-A069EA322E74}</Project>
+      <Name>TweakScalerFSBuoyancy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TweakScaleCompanion_FS\TweakScaleCompanion_FS.csproj">
+      <Project>{4A9BBCC0-9B08-4E5F-910B-B4CF0B8F3A5B}</Project>
+      <Name>TweakScaleCompanion_FS</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -20,17 +20,13 @@
 	along with TweakScaleCompanion_FS. If not, see <https://www.gnu.org/licenses/>.
 
 */
-using System;
-
-using TweakScale;
-using TweakScale.Annotations;
+using KSPe.Annotations;
+using TweakScaleCompanion.FS.Buoyancy.Integrator;
 
 namespace TweakScaleCompanion.FS.Buoyancy
 {
-	public class TweakScalerFSbuoyancy : PartModule
+	public class TweakScalerFSbuoyancy : PartModule, Integrator.Listener
 	{
-		private const string TARGETFIELDNAME = "buoyancyForce";
-
 		#region KSP UI
 
 		[KSPField(isPersistant=true, guiName="Buoyancy (%)", guiActive = false, guiActiveEditor = true, guiUnits = "%"), UI_FloatRange(minValue = 0f, maxValue = 100f, stepIncrement = 1f)]
@@ -44,25 +40,18 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		#region Part Module Fields
 
-        /// <summary>
-        /// Whether the Helper was deativated by some reason (usually the Sanity Checks)
-        /// </summary>
-        [KSPField(isPersistant = false)]
-        public bool isActive = true;
+		/// <summary>
+		/// Whether the Helper was deativated by some reason (usually the Sanity Checks)
+		/// </summary>
+		[KSPField(isPersistant = false)]
+		public bool isActive = true;
 
 		[KSPField(isPersistant=false)]
 		public float buoyancyForceMax = -1f;
 
 		#endregion
 
-		public float buoyancyForceDefault = -1f;
-
-		private TweakScale.TweakScale tweakscale;
-		private FSbuoyancy targetPartModule;
-
-		private BaseField myField;
-		private UI_FloatRange myUiControl;
-
+		private Integrator.Notifier notifier = null;
 		private bool IsRestoreNeeded = false;
 		private bool IsInitNeeded = true;
 
@@ -70,54 +59,57 @@ namespace TweakScaleCompanion.FS.Buoyancy
 
 		public override void OnAwake()
 		{
-			Log.dbg("OnAwake {0}:{1:X}", this.name, this.part.GetInstanceID());
+			Log.dbg("OnAwake {0}", this.InstanceID);
 			base.OnAwake();
 		}
 
 		public override void OnStart(StartState state)
 		{
-			Log.dbg("OnStart {0}:{1:X} {2}", this.name, this.part.GetInstanceID(), state);
+			Log.dbg("OnStart {0} {1}", this.InstanceID, state);
 			base.OnStart(state);
 
-			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy or TweakScale,
+			// If the Integrator's DLL was not loaded, we are dead in the water.
+			if (!(this.enabled = Startup.OK_TO_GO)) return;
+
+			// Needed because I can't intialize this on OnAwake as this module can be awaken before ModuleWaterfallFX,
 			// and OnRescale can be fired before OnLoad.
-			if (null == this.targetPartModule) this.InitModule();
+			if (null == this.notifier) this.IsInitNeeded = true;
 
 			this.IsInitNeeded = true;
 			this.IsRestoreNeeded = true;
+			this.enabled = true;
 		}
 
 		public override void OnCopy(PartModule fromModule)
 		{
-			Log.dbg("OnCopy {0}:{1:X} from {2:X}", this.name, this.part.GetInstanceID(), fromModule.part.GetInstanceID());
+			Log.dbg("OnCopy {0} {1:X}", this.InstanceID, fromModule.part.GetInstanceID());
 			base.OnCopy(fromModule);
 
-			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy,
+			// Needed because I can't intialize this on OnAwake as this module can be awaken before ModuleWaterfallFX,
 			// and OnRescale can be fired before OnLoad.
-			if (null == this.targetPartModule) this.InitModule();
+			if (null == this.notifier) this.IsInitNeeded = true;
 
 			this.IsRestoreNeeded = true;
+			this.enabled = true;
 		}
 
 		public override void OnLoad(ConfigNode node)
 		{
-			Log.dbg("OnLoad {0}:{1:X} {2}", this.name, this.part.GetInstanceID(), null == node ? "prefab" : node.name);
+			Log.dbg("OnLoad {0} {1}", this.InstanceID, null == node ? "prefab" : node.name);
 			base.OnLoad(node);
 			if (null == node) return;   // Load from Prefab - not interesting.
 
-			// Needed because I can't intialize this on OnAwake as this module can be awaken before FSbuoyancy,
+			// Needed because I can't intialize this on OnAwake as this module can be awaken before ModuleWaterfallFX,
 			// and OnRescale can be fired before OnLoad.
-			if (null == this.targetPartModule)
-			{
-				this.InitModule();
+			if (null == this.notifier)
 				this.IsInitNeeded = true;
-			}
 			this.IsRestoreNeeded = true;
+			this.enabled = true;
 		}
 
 		public override void OnSave(ConfigNode node)
 		{
-			Log.dbg("OnSave {0}:{1:X} {2}", this.name, this.part.GetInstanceID(), null != node);
+			Log.dbg("OnSave {0} {1}", this.InstanceID, null != node);
 			base.OnSave(node);
 		}
 
@@ -131,152 +123,76 @@ namespace TweakScaleCompanion.FS.Buoyancy
 		{
 			if (this.IsInitNeeded)
 			{
-				this.InitInternalData();
+				if (this.InitModule()) return;	// Perhaps the Target Module is not initialized yet? Let's try again next round.
+
+				this.notifier.Init();
 				this.IsInitNeeded = false;
 				Log.dbg("OnInitNeeded");
 			}
 
 			if (this.IsRestoreNeeded)
 			{
-				this.RescaleMaxBuoyancy();
-				this.UpdateTarget();
-				this.RefreshUI();
+				this.notifier.Update();
 				this.IsRestoreNeeded = false;
 				Log.dbg("OnRestoreNeeded");
 			}
+
+			this.enabled = false;
 		}
 
 		[UsedImplicitly]
 		private void OnDestroy()
 		{
-			Log.dbg("OnDestroy {0}:{1:X}", this.name, this.part.GetInstanceID());
+			Log.dbg("OnDestroy {0}", this.InstanceID);
 
 			// The object can be destroyed before the full initialization cycle while KSP is booting, so we need to check first.
-			if (null == this.targetPartModule) return;
+			if (null == this.notifier) return;
 
-			this.DeInitUiControl();
+			this.notifier.Destroy();
+			this.notifier = null;
 		}
 
 		#endregion
 
 
-		#region Part Events Handlers
-
-		internal void OnRescale(ScalingFactor factor)
+		string Integrator.Listener.GetName()
 		{
-			Log.dbg("OnRescale {0}:{1:X} to {2}", this.name, this.part.GetInstanceID(), factor.ToString());
+			return this.name;
+		}
 
-			// Needed because I can't intialize this on OnAwake or OnStart as this module can be awaken/started before FSbuoyancy,
-			// and OnRescale can be fired before OnLoad.
-			if (null == this.targetPartModule)
+		void Integrator.Listener.NotifyRestoreNeeded()
+		{
+			this.enabled = this.IsRestoreNeeded = true;
+		}
+
+		void Listener.NotifyNewBuoyancyForceMax(float buoyancyForce)
+		{
+			this.buoyancyForceMax = buoyancyForce;
+		}
+
+		void Listener.NotifyNewRawBuoyancyData(float buoyancyForce)
+		{
+			this.rawBuoyancyData = string.Format("{0} / {1}", buoyancyForce, this.buoyancyForceMax);
+			this.IsRestoreNeeded = true;
+			this.enabled = true;
+		}
+
+		private bool InitModule()
+		{	// Returns if the caller should call us again.
+			try
 			{
-				this.InitInternalData();
+				System.Type type = KSPe.Util.SystemTools.TypeFinder.FindByInterfaceName("TweakScaleCompanion.FS.Buoyancy.Integrator.Notifier");
+				System.Reflection.ConstructorInfo ctor = type.GetConstructor(new[] { typeof(Part), typeof(BaseField), typeof(Integrator.Listener) });
+				this.notifier = (Integrator.Notifier) ctor.Invoke(new object[] { this.part, this.Fields["buoyancyPercent"], (Integrator.Listener)this });
 			}
-
-			this.RescaleMaxBuoyancy();
-			this.UpdateTarget();
-			this.RefreshUI();
-		}
-
-		private void OnMyBuyoancyFieldChange(BaseField field, object what)
-		{
-			Log.dbg("OnMyBuyoancyFieldChange {0}:{1:X}", field.name, this.part.GetInstanceID());
-
-			this.RescaleMaxBuoyancy();
-			this.UpdateTarget();
-			this.RefreshUI();
-		}
-
-		#endregion
-
-		private void InitModule()
-		{
-			this.tweakscale = this.part.Modules.GetModule<TweakScale.TweakScale>();
-			this.targetPartModule = this.part.Modules.GetModule<FSbuoyancy>();
-			if (null == this.targetPartModule || !this.targetPartModule.enabled)
+			catch (System.NullReferenceException e)
 			{
-				this.enabled = false;
-				return;
+				Log.error(this, e);
+				return true;
 			}
-
-			this.myField = this.Fields["buoyancyPercent"];
-			this.myUiControl = (this.myField.uiControlEditor as UI_FloatRange);
-			this.myUiControl.onFieldChanged += this.OnMyBuyoancyFieldChange;
+			return false;
 		}
 
-		private void InitInternalData()
-		{
-			{	// KSP insists on overwritting this info at Scene changing...
-				// And I don't think it's a good idea to overwrite the datum on the prefab - but I can be convinced otherwise :)
-				BaseField bf = this.targetPartModule.Fields[TARGETFIELDNAME];
-				bf.guiActive = false;
-				bf.guiActiveEditor = false;
-			}
-
-			this.buoyancyForceDefault = (this.part.partInfo.partPrefab.Modules.GetModule<FSbuoyancy>().Fields[TARGETFIELDNAME].uiControlEditor as UI_FloatRange).maxValue;
-
-			this.RefreshInternalData();
-			this.RefreshUI();
-		}
-
-		private void DeInitUiControl()
-		{
-			{
-				BaseField bf = this.targetPartModule.Fields[TARGETFIELDNAME];
-				bf.guiActive = false;
-				bf.guiActiveEditor = true;
-			}
-		}
-
-		private void RefreshInternalData()
-		{
-			this.RescaleMaxBuoyancy();
-			this.targetPartModule.buoyancyForce = (float)Math.Truncate(this.buoyancyPercent * this.buoyancyForceMax / 100f);
-			Log.dbg("RefreshInternalData {0}:{1:X} to {2} / {3}", this.name, this.part.GetInstanceID(), this.buoyancyForceDefault, this.buoyancyPercent);
-		}
-
-		private void RescaleMaxBuoyancy()
-		{
-			this.buoyancyForceMax = (float)Math.Truncate(this.buoyancyForceDefault * this.tweakscale.CurrentScaleFactor);
-		}
-
-		private void UpdateTarget()
-		{
-			this.targetPartModule.buoyancyForce = (float)Math.Truncate(this.buoyancyForceMax * this.buoyancyPercent / 100f);
-			Log.dbg("this.targetPartModule.buoyancyForce {0}:{1:X} = {2}", this.name, this.part.GetInstanceID(), this.targetPartModule.buoyancyForce);
-		}
-
-		private void RefreshUI()
-		{
-			this.rawBuoyancyData = string.Format("{0} / {1}", this.targetPartModule.buoyancyForce, this.buoyancyForceMax);
-		}
-
-		private static KSPe.Util.Log.Logger Log = KSPe.Util.Log.Logger.CreateForType<TweakScalerFSbuoyancy>("TweakScaleCompanion_FS", "TweakScalerFSbuoyancy");
-
-		static TweakScalerFSbuoyancy()
-		{
-			Log.level =
-#if DEBUG
-				KSPe.Util.Log.Level.TRACE
-#else
-				KSPe.Util.Log.Level.INFO
-#endif
-				;
-		}
-	}
-
-	public class Scaler : TweakScale.IRescalable<TweakScalerFSbuoyancy>
-	{
-		private readonly TweakScalerFSbuoyancy pm;
-
-		public Scaler(TweakScalerFSbuoyancy pm)
-		{
-			this.pm = pm;
-		}
-
-		public void OnRescale(ScalingFactor factor)
-		{
-			this.pm.OnRescale(factor);
-		}
+		private string InstanceID => string.Format("{0}:{1:X}", this.part.name, (null == this.part ? 0 : this.part.GetInstanceID()));
 	}
 }
