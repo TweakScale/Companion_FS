@@ -21,7 +21,10 @@ Adds (up to date) TweakScale /L patches for Firespitter.
 
 ## Description
 
-**TweakScale Companion for Firespitter** adds (up to date) [TweakScale /L](https://forum.kerbalspaceprogram.com/index.php?/topic/179030-*/) support for ( surprisingly :P ) [Firespitter](https://forum.kerbalspaceprogram.com/index.php?/topic/22583-*/).
+**TweakScale Companion for Firespitter** adds (up to date) [TweakScale /L](https://forum.kerbalspaceprogram.com/index.php?/topic/179030-*/) support for 
+
+* ( surprisingly :P ) [Firespitter](https://forum.kerbalspaceprogram.com/index.php?/topic/22583-*/) 
+* [Firespitter Extended](https://forum.kerbalspaceprogram.com/index.php?/topic/184773-*/)
 
 
 ## Installation
@@ -72,3 +75,6 @@ See [NOTICE](./NOTICE) for further copyright and trademarks notices.
 	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/22583-firespitter-propeller-plane-and-helicopter-parts-v71-may-5th-for-ksp-10/)
 	+ [CurseForge](https://www.curseforge.com/kerbal/ksp-mods/firespitter)
 	+ [GitHub](https://github.com/snjo/Firespitter).
+* Firespitter Extended ([ultimateflash15](https://forum.kerbalspaceprogram.com/index.php?/profile/163726-ultimateflash15//))
+	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/184773-18x-firespitter-extended-version-22-quality-control/)
+	+ [SpaceDock](https://spacedock.info/mod/2156/Firespitter%20Extended)
