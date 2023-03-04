@@ -1,6 +1,6 @@
 ﻿/*
   	This file is part of TweakScaleCompanion_FS
-	© 2020-21 LisiasT : http://lisias.net <support@lisias.net>
+	© 2020-2023 LisiasT : http://lisias.net <support@lisias.net>
 
    KSPe API Extensions/L is double licensed, as follows:
 
@@ -26,7 +26,7 @@ namespace TweakScaleCompanion.FS
 	public static class LegalMamboJambo
 	{
 		public const string Company = "L Aerospace KSP Division";
-		public const string Copyright = "© 2020-21 LisiasT";
+		public const string Copyright = "© 2020-2023 LisiasT";
 		public const string Product = "TweakScale Companion for Firespitter";
 		public const string Trademark = "TweakScale™, TweakScale Companion™ by LisiasT";
 	}
