@@ -181,7 +181,7 @@ namespace TweakScaleCompanion.FS.Buoyancy
 		{	// Returns if the caller should call us again.
 			try
 			{
-				System.Type type = KSPe.Util.SystemTools.TypeFinder.FindByInterfaceName("TweakScaleCompanion.FS.Buoyancy.Integrator.Notifier");
+				System.Type type = KSPe.Util.SystemTools.Type.Find.ByInterfaceName("TweakScaleCompanion.FS.Buoyancy.Integrator.Notifier");
 				System.Reflection.ConstructorInfo ctor = type.GetConstructor(new[] { typeof(Part), typeof(BaseField), typeof(Integrator.Listener) });
 				this.notifier = (Integrator.Notifier) ctor.Invoke(new object[] { this.part, this.Fields["buoyancyPercent"], (Integrator.Listener)this });
 			}

@@ -24,6 +24,6 @@ using System.Runtime.CompilerServices;
 [assembly: KSPAssemblyDependency("TweakScaleCompanion_FS", TweakScaleCompanion.FS.Version.major, TweakScaleCompanion.FS.Version.minor)]
 [assembly: KSPAssemblyDependency("TweakScalerFSbuoyancy", TweakScaleCompanion.FS.Version.major, TweakScaleCompanion.FS.Version.minor)]
 [assembly: KSPAssemblyDependency("Firespitter", 0, 0)]
-[assembly: KSPAssemblyDependency("KSPe.Light.TweakScale", 2, 4)]
+[assembly: KSPAssemblyDependency("KSPe.Light.TweakScale", 2, 5)]
 [assembly: KSPAssemblyDependency("Scale", 2, 4)]
 //[assembly: KSPAssemblyDependency("Scale_Redist", 1, 0)] // KSP 1.12.2 screwed up the Dependency check!!!

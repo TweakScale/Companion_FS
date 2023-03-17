@@ -39,4 +39,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion(TweakScaleCompanion.FS.Version.Number)]
 [assembly: AssemblyFileVersion(TweakScaleCompanion.FS.Version.Number)]
 [assembly: KSPAssembly("TweakScaleCompanion_FS", TweakScaleCompanion.FS.Version.major, TweakScaleCompanion.FS.Version.minor)]
-[assembly: KSPAssemblyDependency("KSPe.Light.TweakScale", 2, 4)]
+[assembly: KSPAssemblyDependency("KSPe.Light.TweakScale", 2, 5)]

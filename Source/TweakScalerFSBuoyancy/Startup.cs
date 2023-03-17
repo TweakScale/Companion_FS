@@ -33,8 +33,10 @@ namespace TweakScaleCompanion.FS.Buoyancy
 		[UsedImplicitly]
 		private void Awake()
 		{
-			if (KSPe.Util.SystemTools.TypeFinder.ExistsByQualifiedName(".FSbuoyancy")) // Ugh... Classes without Namespace is a Use Case that I missed on KSPe...
-				using(KSPe.Util.SystemTools.Assembly.Loader a = new KSPe.Util.SystemTools.Assembly.Loader(typeof(TweakScaleCompanion.FS.Startup).Namespace.Replace(".",KSPe.IO.Path.DirectorySeparatorStr)))
+			if (KSPe.Util.SystemTools.Type.Exists.ByQualifiedName(".FSbuoyancy")) // Ugh... Classes without Namespace is a Use Case that I missed on KSPe...
+				// Pegadinha do malandro: If I use <Version>, the path will be resolved to "./GameData/TweakScaleCompanion/FS/Buoyancy", what's
+				// not exactly what we are aiming for! :)
+				using(KSPe.Util.SystemTools.Assembly.Loader a = new KSPe.Util.SystemTools.Assembly.Loader<FS.Startup>())
 				{ 
 					a.LoadAndStartup("TweakScalerFSBuoyancyIntegrator");
 					OK_TO_GO = true;
