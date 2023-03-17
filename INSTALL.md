@@ -54,7 +54,7 @@ The following file layout must be present after installation:
 
 ### Dependencies
 
-* TweakScale /L 2.4.6.26 or later
+* TweakScale /L 2.4.7 or later
 	+ **NOT** included
 * Firespitter
 	+ **NOT** included 
