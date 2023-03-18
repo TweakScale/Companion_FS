@@ -66,11 +66,12 @@ See [NOTICE](./NOTICE) for further copyright and trademarks notices.
 ## Refences
 
 * TweakScale /L ([LisiasT](https://forum.kerbalspaceprogram.com/index.php?/profile/187168-lisias/))
-	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/179030-ksp-141-tweakscale-under-lisias-management-24310-2019-1030/)
+	+ [Homepage](http://ksp.lisias.net/add-ons/TweakScale) on L Aerospace
+	+ [Reddit](https://www.reddit.com/r/TweakScale/)
+	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/179030-*/)
 	+ [CurseForge](https://kerbal.curseforge.com/projects/tweakscale)
 	+ [SpaceDock](https://spacedock.info/mod/127/TweakScale)
-	+ [Homepage](http://ksp.lisias.net/add-ons/TweakScale) on L Aerospace
-	+ [GitHub](https://github.com/net-lisias-ksp/TweakScale).
+	+ [GitHub](https://github.com/net-lisias-ksp/TweakScale)
 * Firespitter ([Snjo](https://forum.kerbalspaceprogram.com/index.php?/profile/57198-snjo/))
 	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/22583-firespitter-propeller-plane-and-helicopter-parts-v71-may-5th-for-ksp-10/)
 	+ [CurseForge](https://www.curseforge.com/kerbal/ksp-mods/firespitter)
