@@ -25,20 +25,21 @@ using KSPe.UI;
 
 namespace TweakScaleCompanion.FS.GUI
 {
-    internal class UnmetRequirementsShowStopperAlertBox
-    {
-        private static readonly string MSG = @"Unfortunately TweakScale Companion for Firespiter is unable to proceed due unmet requiments!
+	internal static class UnmetRequirementsShowStopperAlertBox
+	{
+		private const string URL = "https://ksp.lisias.net/add-ons/TweakScaleCompanion/Support/FS/unmet-requirements";
+		private static readonly string MSG = @"Unfortunately TweakScale Companion for Firespiter is unable to proceed due unmet requiments!
 
 You need to have {0} installed, otherwise this Companion will fail to install itself and KSP will inject bad information on your savegames Firespitter parts with TwekScale.";
 
-		private static readonly string AMSG = @"go to TweakScale Companion Program's page, look for the dependencies for Firespitter, download and install {0} and restart KSP (it will close now)";
+		private static readonly string AMSG = @"go to TweakScale Companion Program's page, check for any other dependencies for Firespitter, download and install {0} and restart KSP (it will close now)";
 
 		internal static void Show(string failedRequirement)
 		{
 			KSPe.Common.Dialogs.ShowStopperAlertBox.Show(
 				string.Format(MSG, failedRequirement),
 				string.Format(AMSG, failedRequirement),
-				() => { KSPe.Util.CkanTools.OpenURL("https://forum.kerbalspaceprogram.com/index.php?/topic/192216-*"); Application.Quit(); }
+				() => { KSPe.Util.CkanTools.OpenURL(URL); Application.Quit(); }
 			);
 			Log.detail("\"Houston, we have a Problem!\" about unmet dependencies was displayed");
 		}
