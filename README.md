@@ -71,7 +71,7 @@ See [NOTICE](./NOTICE) for further copyright and trademarks notices.
 	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/179030-*/)
 	+ [CurseForge](https://kerbal.curseforge.com/projects/tweakscale)
 	+ [SpaceDock](https://spacedock.info/mod/127/TweakScale)
-	+ [GitHub](https://github.com/TweakScale/net-lisias-ksp)
+	+ [GitHub](https://github.com/TweakScale/TweakScale)
 * Firespitter ([Snjo](https://forum.kerbalspaceprogram.com/index.php?/profile/57198-snjo/))
 	+ [Forum](https://forum.kerbalspaceprogram.com/index.php?/topic/22583-firespitter-propeller-plane-and-helicopter-parts-v71-may-5th-for-ksp-10/)
 	+ [CurseForge](https://www.curseforge.com/kerbal/ksp-mods/firespitter)
