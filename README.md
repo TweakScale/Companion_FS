@@ -21,10 +21,7 @@ Adds (up to date) TweakScale /L patches for Firespitter.
 
 ## Description
 
-**TweakScale Companion for Firespitter** adds (up to date) [TweakScale /L](https://forum.kerbalspaceprogram.com/index.php?/topic/179030-*/) support for 
-
-* ( surprisingly :P ) [Firespitter](https://forum.kerbalspaceprogram.com/index.php?/topic/22583-*/) 
-* [Firespitter Extended](https://forum.kerbalspaceprogram.com/index.php?/topic/184773-*/)
+**TweakScale Companion for Firespitter** adds (up to date) [TweakScale /L](https://forum.kerbalspaceprogram.com/index.php?/topic/179030-*/) support for  ( surprisingly :P ) `Firespitter` and `Firespitter Extended`.
 
 
 ## Installation
