@@ -7,7 +7,7 @@ TARGETBINDIR="$TARGETDIR/Plugins"
 PROJECTSDIR="$PACKAGE/"
 
 DLLS="TweakScaleCompanion_FS TweakScalerFSBuoyancy"
-PD_DLLS=""
+PD_DLLS="TweakScalerFSBuoyancyIntegrator"
 declare -A PD_SUB_RULES=( )
 PD_SUB_DLLS=`{ for K in "${!PD_SUB_RULES[@]}"; do echo $(basename ${PD_SUB_RULES[$K]}); done } | sort -u | tr '\n' ' '`
 PD_SUB_DIRS=`{ for K in "${!PD_SUB_RULES[@]}"; do echo $(dirname ${PD_SUB_RULES[$K]}); done } | sort -u | tr '\n' ' '`
@@ -15,7 +15,7 @@ GD_DLLS=""
 GD_PRIORITY=""
 LIB_DLLS=""
 
-declare -A EXCEPTION_RULES=( ["TweakScalerFSBuoyancyIntegrator"]="./PluginData" )
+declare -A EXCEPTION_RULES=( )
 EXCEPTION_DLLS=`{ for K in "${!EXCEPTION_RULES[@]}"; do echo $(basename ${EXCEPTION_RULES[$K]}); done } | sort -u | tr '\n' ' '`
 EXCEPTION_DIRS=`{ for K in "${!EXCEPTION_RULES[@]}"; do echo $(dirname ${EXCEPTION_RULES[$K]}); done } | sort -u | tr '\n' ' '`
 
