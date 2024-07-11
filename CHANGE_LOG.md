@@ -1,5 +1,8 @@
 # TweakScale Companion :: Firespitter :: Change Log
 
+* 2024-0711: 1.3.0.2 (LisiasT) for KSP >= 1.3
+	+ Fixes a screw up on the distribution.
+		- Thanks to [kmsheesh](https://forum.kerbalspaceprogram.com/profile/222111-kmsheesh/) for the heads up!
 * 2023-1005: 1.3.0.1 (LisiasT) for KSP >= 1.3
 	+ Adjustments on the documentation.
 	+ Small, cosmetic fixes (including grammars)
