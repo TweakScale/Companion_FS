@@ -1,11 +1,10 @@
 ﻿/*
-	This file is part of TweakScalerModuleWaterfallFX, a component of TweakScaleCompanion_Frameworks
-	© 2021 LisiasT : http://lisias.net <support@lisias.net>
+	This file is part of TweakScalerFSbuoyancyIntegrator, a component of TweakScaleCompanion_FS
+		© 2020-2024 LisiasT : http://lisias.net <support@lisias.net>
 
-	TweakScaleCompanion_Frameworks is double licensed, as follows:
-
-	* SKL 1.0 : https://ksp.lisias.net/SKL-1_0.txt
-	* GPL 2.0 : https://www.gnu.org/licenses/gpl-2.0.txt
+	TweakScaleCompanion_FS is double licensed, as follows:
+		* SKL 1.0 : https://ksp.lisias.net/SKL-1_0.txt
+		* GPL 2.0 : https://www.gnu.org/licenses/gpl-2.0.txt
 
 	And you are allowed to choose the License that better suit your needs.
 
