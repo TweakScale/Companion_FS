@@ -1,6 +1,6 @@
 ﻿/*
 	This file is part of TweakScalerFSbuoyancyIntegrator, a component of TweakScaleCompanion_FS
-		© 2020-2024 LisiasT : http://lisias.net <support@lisias.net>
+		© 2020-2026 LisiasT : http://lisias.net <support@lisias.net>
 
 	TweakScaleCompanion_FS is double licensed, as follows:
 		* SKL 1.0 : https://ksp.lisias.net/SKL-1_0.txt

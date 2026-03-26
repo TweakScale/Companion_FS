@@ -1,6 +1,6 @@
 ﻿/*
 	This file is part of TweakScalerFSbuoyancyIntegrator, a component of TweakScaleCompanion_FS
-		© 2020-2024 LisiasT : http://lisias.net <support@lisias.net>
+		© 2020-2026 LisiasT : http://lisias.net <support@lisias.net>
 
 	TweakScaleCompanion_FS is double licensed, as follows:
 		* SKL 1.0 : https://ksp.lisias.net/SKL-1_0.txt
@@ -25,7 +25,7 @@ namespace TweakScaleCompanion.FS
 	public static class LegalMamboJambo
 	{
 		public const string Company = "L Aerospace KSP Division";
-		public const string Copyright = "© 2020-2023 LisiasT";
+		public const string Copyright = "© 2020-2026 LisiasT";
 		public const string Product = "TweakScale Companion for Firespitter";
 		public const string Trademark = "TweakScale™, TweakScale Companion™ by LisiasT";
 	}
